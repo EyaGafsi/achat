@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
 
@@ -8,7 +7,6 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 echo 'Recuperation du projet depuis GitHub'
@@ -34,16 +32,20 @@ pipeline {
 
         stage('Archive') {
             steps {
-                archiveArtifacts artifacts: 'target/*.jar',
-                                 allowEmptyArchive: true
+                archiveArtifacts(
+                    artifacts: 'target/*.jar',
+                    allowEmptyArchive: true
+                )
             }
         }
     }
 
     post {
         always {
-            junit testResults: 'target/surefire-reports/*.xml',
-                  allowEmptyResults: true
+            junit(
+                testResults: 'target/surefire-reports/*.xml',
+                allowEmptyResults: true
+            )
         }
 
         success {
